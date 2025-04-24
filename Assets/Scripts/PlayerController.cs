@@ -5,8 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float flyForce;
-    [SerializeField] float gravity = -9.8f;
-
     [SerializeField] Sprite[] sprites;
     int currentIndex;
 
@@ -51,7 +49,15 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            this.enabled=false;
+            this.enabled = false;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Score"))
+        {
+            Debug.Log("ADD SCORE!");
         }
     }
 

@@ -5,16 +5,22 @@ using UnityEngine;
 public class Pipe : MonoBehaviour
 {
     public float moveSpeed;
+
+    bool canMove;
+    public bool CanMove{get{return canMove;}set{canMove=value;}}
     // Start is called before the first frame update
     void Start()
-    {
-
+    {   
+        canMove=true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(-moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+
+        if(!canMove) return;
+
+        transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
 
         if (transform.position.x <= -30)
         {
