@@ -8,23 +8,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Sprite[] sprites;
     int currentIndex;
 
+
+    GameManager gameManager;
     SpriteRenderer spriteRenderer;
+
     Rigidbody rb;
     Vector3 dir;
+
+    void OnEnable()
+    {
+        InvokeRepeating("PlayAnimation", 0.15f, 0.15f);
+    }
+
+    void OnDisable()
+    {
+        CancelInvoke("PlayAnimation");
+    }
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        gameManager = FindObjectOfType<GameManager>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         currentIndex = 0;
 
-        InvokeRepeating("PlayAnimation", 0.15f, 0.15f);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
@@ -47,9 +61,9 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("Ground")) //碰到障礙物或是地板
         {
-            this.enabled = false;
+            gameManager.EndGame();
         }
     }
 
@@ -57,7 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Score"))
         {
-            Debug.Log("ADD SCORE!");
+            gameManager.IncreaseScore();
         }
     }
 
