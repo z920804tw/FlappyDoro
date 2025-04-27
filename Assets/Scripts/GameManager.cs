@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     {
         //玩家控制停止
         playerController.enabled = false;
-        playerController.GetComponent<Rigidbody>().isKinematic=true;
+        playerController.GetComponent<Rigidbody>().isKinematic = true;
         //水管移動停止
         pipeSpawner.StopAllPipe();
 
@@ -80,8 +80,8 @@ public class GameManager : MonoBehaviour
 
 
         //設定結算分數
-        gameOverScoreText.text=$"本局分數:{score}";
-        heighestText.text=$"歷史最高分數:{PlayerPrefs.GetInt("HeighestScore", 0)}";
+        gameOverScoreText.text = $"本局分數:{score}";
+        heighestText.text = $"歷史最高分數:{PlayerPrefs.GetInt("HeighestScore", 0)}";
 
     }
 
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         int heighestScore = PlayerPrefs.GetInt("HeighestScore", 0);
         if (score > heighestScore)
         {
-            PlayerPrefs.SetInt("HeighestScore",score);
+            PlayerPrefs.SetInt("HeighestScore", score);
         }
     }
 

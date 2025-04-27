@@ -61,18 +61,26 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("Ground")) //碰到障礙物或是地板
+        if (this.enabled)
         {
-            gameManager.EndGame();
+            if (collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("Ground")) //碰到障礙物或是地板
+            {
+                gameManager.EndGame();
+            }
         }
+
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Score"))
+        if (this.enabled)
         {
-            gameManager.IncreaseScore();
+            if (other.gameObject.CompareTag("Score"))
+            {
+                gameManager.IncreaseScore();
+            }
         }
+
     }
 
 
