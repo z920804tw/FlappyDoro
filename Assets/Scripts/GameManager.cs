@@ -8,10 +8,12 @@ public class GameManager : MonoBehaviour
 {
     [Header("遊戲參數")]
     [SerializeField] int score;
+    public int Score { get { return score; } }
     [Header("物件參考")]
     public PipeSpawner pipeSpawner;
     public PlayerController playerController;
     public Parallax background;
+    AudioSource audioSource;
 
     [Header("UI物件")]
     public GameObject gameOverUI;
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         isStart = false;
     }
 
@@ -150,9 +153,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator AnimUI(float delayTime, GameObject gameObject)
     {
+        gameObject.SetActive(true);
         float timer = 0;
         CanvasGroup canvasGroup = gameObject.GetComponent<CanvasGroup>();
-
         while (timer <= delayTime)
         {
             timer += Time.deltaTime;
