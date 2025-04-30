@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,8 +18,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI物件")]
     public GameObject gameOverUI;
-    public GameObject setUI;
-    public GameObject exitUI;
+
     public GameObject hintText;
     public TMP_Text socreText;
 
@@ -93,6 +93,11 @@ public class GameManager : MonoBehaviour
         score++;
         socreText.text = $"{score}";
 
+        if (score % 10 == 0)
+        {
+            StartCoroutine(AnimScore(6, socreText));
+        }
+
         int heighestScore = PlayerPrefs.GetInt("HeighestScore", 0);
         if (score > heighestScore)
         {
@@ -104,42 +109,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-
-    public void OpenSettingUI()
-    {
-        if (!setUI.activeSelf)
-        {
-            Time.timeScale = 0;
-            setUI.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            setUI.SetActive(false);
-        }
-    }
-
-    public void OpenExitUI()
-    {
-        if (!exitUI.activeSelf)
-        {
-            Time.timeScale = 0;
-            exitUI.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            exitUI.SetActive(false);
-        }
-    }
-
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
-
-    void StopAllGround()
+    void StopAllGround() //讀取場上所有tag=Ground的物件，然後關閉移動
     {
         GameObject[] grounds = GameObject.FindGameObjectsWithTag("Ground");
         foreach (GameObject i in grounds)
@@ -147,9 +117,6 @@ public class GameManager : MonoBehaviour
             i.GetComponent<Ground>().enabled = false;
         }
     }
-
-
-
 
     IEnumerator AnimUI(float delayTime, GameObject gameObject)
     {
@@ -165,5 +132,28 @@ public class GameManager : MonoBehaviour
         }
 
         canvasGroup.alpha = 1;
+    }
+
+    IEnumerator AnimScore(int switchCount, TMP_Text text)
+    {
+        int count = 0;
+        int index = 0;  //0=白 1==紅
+        while (count < switchCount)
+        {
+            count++;
+            if (index == 0)
+            {
+                index = 1;
+                text.color = Color.red;
+            }
+            else if (index == 1)
+            {
+                index = 0;
+                text.color = Color.white;
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        text.color = Color.white;
     }
 }

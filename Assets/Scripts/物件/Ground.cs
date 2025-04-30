@@ -19,7 +19,7 @@ public class Ground : MonoBehaviour
         
         if (transform.position.x <= -26)
         {
-            transform.position=new Vector3(26f,transform.position.y,0);
+            transform.position=new Vector3(25.8f,transform.position.y,transform.position.z);
         }
     }
 }
